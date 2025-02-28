@@ -3,7 +3,7 @@ from classes import *
 import openai
 
 def receber_resposta(user: usuario) -> str:
-    openai.api_key = "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"
+    openai.api_key = 
 
     prompt: str = criar_prompt(user)
     resposta = openai.ChatCompletion.create(model = "gpt-3.5-turbo", messages = [{"role": "user", "content": prompt}])
