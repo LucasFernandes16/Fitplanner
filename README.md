@@ -1,2 +1,2 @@
-# FitPlanner AI]
+# FitPlanner AI
  Integracao fitplanner
