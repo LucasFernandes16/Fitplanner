@@ -3,7 +3,7 @@ from pydantic import BaseModel
 class usuario(BaseModel):
     idade: int
     experiencia: bool
-    dias_disponiveis: list[int]
+    dias_disponiveis: list[int]  # Lista de índices dos dias disponíveis (0 = domingo, 1 = segunda, etc.)
 
 class treino(BaseModel):
     domingo: list[str]
@@ -13,4 +13,3 @@ class treino(BaseModel):
     quinta: list[str]
     sexta: list[str]
     sabado: list[str]
-    
