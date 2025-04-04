@@ -7,43 +7,58 @@ import Header from './components/Header';
 export default function Home() {
   const [nome, setNome] = useState<string>('');
   const [idade, setIdade] = useState<string>('');
-  const [diasDisponiveis, setDiasDisponiveis] = useState<string>('');
-  const [intensidade, setIntensidade] = useState<string>('leve');
+  const [diasDisponiveis, setDiasDisponiveis] = useState<{ [key: string]: boolean }>({
+    domingo: false,
+    segunda: false,
+    terca: false,
+    quarta: false,
+    quinta: false,
+    sexta: false,
+    sabado: false,
+  });
+  const [experiencia, setExperiencia] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Dados do formulário
+    // Converte os dias disponíveis para uma lista de índices (0 = domingo, 1 = segunda, etc.)
+    const diasDisponiveisArray = Object.keys(diasDisponiveis)
+      .map((day, index) => (diasDisponiveis[day] ? index : null))
+      .filter((day) => day !== null);
+
     const userData = {
       nome,
       idade: parseInt(idade, 10),
-      dias_disponiveis: diasDisponiveis.split(',').map(Number),
-      experiencia: true, // Adicione a lógica para definir a experiência
+      dias_disponiveis: diasDisponiveisArray, // Envia como lista de índices
+      experiencia, // Já é booleano
     };
 
     try {
-      // Envia os dados para o backend
-      const response = await fetch('http://127.0.0.1:8000/criar-treino', { 
+      const response = await fetch('http://127.0.0.1:8000/criar-treino', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(userData),
       });
-      
+
       if (!response.ok) {
         throw new Error('Erro ao enviar dados para o backend');
       }
 
       const data = await response.json();
-      console.log('Resposta do backend:', data);
-
-      // Redireciona para a página de treino com os dados
       router.push(`/treino?treino=${JSON.stringify(data)}`);
     } catch (error) {
       console.error('Erro:', error);
     }
+  };
+
+  const handleDayChange = (day: string) => {
+    setDiasDisponiveis((prev) => ({
+      ...prev,
+      [day]: !prev[day],
+    }));
   };
 
   return (
@@ -84,44 +99,62 @@ export default function Home() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="diasDisponiveis" className="block text-sm font-medium text-gray-300">
-              Dias Disponíveis (separados por vírgula):
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              Dias Disponíveis:
             </label>
-            <input
-              type="text"
-              id="diasDisponiveis"
-              value={diasDisponiveis}
-              onChange={(e) => setDiasDisponiveis(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-              required
-            />
+            <div className="grid grid-cols-4 gap-2">
+              {Object.keys(diasDisponiveis).map((day) => (
+                <button
+                  key={day}
+                  type="button"
+                  onClick={() => handleDayChange(day)}
+                  className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                    diasDisponiveis[day]
+                      ? 'bg-green-600 text-white hover:bg-green-700'
+                      : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                  }`}
+                >
+                  {day.charAt(0).toUpperCase() + day.slice(1)}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="mb-6">
-            <label htmlFor="intensidade" className="block text-sm font-medium text-gray-300">
-              Nível de Intensidade:
+          <div className="mb-4">
+            <label htmlFor="experiencia" className="block text-sm font-medium text-gray-300">
+              Experiência:
             </label>
-            <select
-              id="intensidade"
-              value={intensidade}
-              onChange={(e) => setIntensidade(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
-              required
-            >
-              <option value="leve">Leve</option>
-              <option value="moderado">Moderado</option>
-              <option value="intenso">Intenso</option>
-            </select>
+            <div className="flex gap-4 mt-2">
+              <button
+                type="button"
+                onClick={() => setExperiencia(false)}
+                className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                  experiencia === false
+                    ? 'bg-green-600 text-white hover:bg-green-700'
+                    : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                }`}
+              >
+                Iniciante
+              </button>
+              <button
+                type="button"
+                onClick={() => setExperiencia(true)}
+                className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                  experiencia === true
+                    ? 'bg-green-600 text-white hover:bg-green-700'
+                    : 'bg-gray-600 text-gray-300 hover:bg-gray-500'
+                }`}
+              >
+                Avançado
+              </button>
+            </div>
           </div>
           <button
             type="submit"
             className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            Começar
+            Enviar
           </button>
         </form>
-      </div>
-      <div className=''>
-
       </div>
     </div>
   );
