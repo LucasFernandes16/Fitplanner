@@ -39,7 +39,7 @@ def gpt(user: usuario) -> str:
 def treino_usuario(user: usuario) -> treino:
     return montar_treino(user)
 
-@app.get("/registrar-login/")
+@app.get("/registrar-login")
 def registrar_login(email: str, senha: str) -> None:
     if email_registrado(email):
         raise HTTPException(status_code= 410, detail= "Email já registrado")
