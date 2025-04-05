@@ -70,3 +70,32 @@ def test_prompt_7_dias():
     resposta = client.post("/testar-prompt", json={"idade":18,"experiencia":False,"dias_disponiveis":[0, 1, 2, 3, 4, 5, 6]})
 
     assert resposta.status_code == 200
+
+
+#Testes de Login
+def test_email_valido():
+    repostas = client.get("/registrar-login", params= {"email": "teste@gmail.com", "senha": "aaa1@"})
+
+    assert repostas.status_code == 200
+
+def test_email_ja_existente():
+    repostas = client.get("/registrar-login", params= {"email": "teste@gmail.com", "senha": "aaa1@"})
+
+    assert repostas.status_code == 410
+
+def test_senha_invalida():
+    #Teste de senha sem caractere especial
+    repostas_especial = client.get("/registrar-login", params= {"email": "teste2@gmail.com", "senha": "aaa1"})
+    #Teste de senha senha sem digito
+    repostas_digito = client.get("/registrar-login", params= {"email": "teste2@gmail.com", "senha": "aaa@"})
+    #Teste de senha sem caractere esopecial ou digito
+    repostas_geral = client.get("/registrar-login", params= {"email": "teste2@gmail.com", "senha": "aaa"})
+
+    assert repostas_especial.status_code == 412
+    assert repostas_digito.status_code == 412
+    assert repostas_geral.status_code == 412
+
+def test_email_invalido():
+    repostas = client.get("/registrar-login", params= {"email": "teste@email.com", "senha": "aaa1@"})
+
+    assert repostas.status_code == 411

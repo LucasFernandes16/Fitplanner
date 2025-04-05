@@ -35,7 +35,7 @@ class login:
         return hash(self.email)
     
     def senha_valida(self) -> bool:
-        if self.__caractere_especial() and self.__caractere_numerico:
+        if self.__caractere_especial() and self.__caractere_numerico():
             return True
         return False
 
