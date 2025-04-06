@@ -10,10 +10,10 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Permite requisições do frontend
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # Adicione outras origens, se necessário
     allow_credentials=True,
-    allow_methods=["*"],  # Permite todos os métodos (GET, POST, etc.)
-    allow_headers=["*"],  # Permite todos os cabeçalhos
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")
@@ -38,33 +38,51 @@ def gpt(user: usuario) -> str:
 
 @app.post("/criar-treino")
 def treino_usuario(user: usuario) -> treino:
-    return montar_treino(user)
-
-@app.get("/registrar-login")
-def registrar_login(email: str, senha: str) -> None:
-    if email_registrado(email):
-        raise HTTPException(status_code= 410, detail= "Email já registrado")
+    # Verifica se o email foi fornecido
+    if not user.email:
+        raise HTTPException(status_code=400, detail="Email não fornecido")
     
-    login_atual = login(email= email, senha= senha)
+    # Verifica se o usuário existe
+    if user.email not in logins:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    
+    treino_gerado = montar_treino(user)
+    
+    # Converte o dicionário para um objeto treino
+    treino_obj = treino(**treino_gerado)
+    logins[user.email]["treino"] = treino_obj
+    salvar_usuarios(logins)
+
+    return treino_gerado
+
+@app.post("/registrar-login")
+def registrar_login(data: login) -> dict:
+    email = data.email
+    senha = data.senha
+    if email_registrado(email):
+        raise HTTPException(status_code=410, detail="Email já registrado")
+    
+    login_atual = login(email=email, senha=senha)
     if not login_atual.email_valido():
-        raise HTTPException(status_code= 411, detail= "Email inválido")
+        raise HTTPException(status_code=411, detail="Email inválido")
     if not login_atual.senha_valida():
-        raise HTTPException(status_code= 412, detail= "Senha inválida, a senha precisa ter pelo menos um digito e um caractere especial")
+        raise HTTPException(status_code=412, detail="Senha inválida, a senha precisa ter pelo menos um digito e um caractere especial")
     
     logins[email] = {
         "login": login_atual, 
         "treino": treino(
-            domingo= None, 
-            segunda= None, 
-            terca= None, 
-            quarta= None, 
-            quinta= None, 
-            sexta= None, 
-            sabado= None
+            domingo=None, 
+            segunda=None, 
+            terca=None, 
+            quarta=None, 
+            quinta=None, 
+            sexta=None, 
+            sabado=None
         )
     }
 
     salvar_usuarios(logins)
+    return {"message": "Registro realizado com sucesso"}
 
 @app.patch("/atualizar-senha")
 def atualizar_senha(email: str, senha_nova: str) -> None:
@@ -83,14 +101,17 @@ def atualizar_senha(email: str, senha_nova: str) -> None:
     salvar_usuarios(logins)
 
 @app.post("/fazer-login")
-def fazer_login(email: str, senha: str) -> None:
-    if not email_registrado(email):
-        raise HTTPException(status_code= 413, detail= "Email não encontrado")
+def fazer_login(data: login) -> dict:
+    email = data.email
+    senha = data.senha
+    if email not in logins:
+        raise HTTPException(status_code= 410, detail= "Email não encontrado")
     
     login_atual = encontrar_login(email)
     if not login_atual.mesma_senha(senha):
         raise HTTPException(status_code= 415, detail= "Senha incorreta")
-    return True
+    
+    return {"message": "Login realizado com sucesso"}
             
 @app.patch("/salvar-treino")
 def salvar_treino(user: usuario, email: str) -> None:
@@ -98,6 +119,8 @@ def salvar_treino(user: usuario, email: str) -> None:
 
     salvar_usuarios(logins)
 
-@app.post("resgatar-treino")
+@app.get("/resgatar-treino")
 def resgatar_treino(email: str) -> treino:
+    if email not in logins:
+        raise HTTPException(status_code=404, detail="Treino não encontrado para o email fornecido")
     return logins[email]["treino"]

@@ -1,18 +1,20 @@
 from pydantic import BaseModel
+from typing import List
 
 class usuario(BaseModel):
+    email: str
     idade: int
     experiencia: bool
-    dias_disponiveis: list[int]  # Lista de índices dos dias disponíveis (0 = domingo, 1 = segunda, etc.)
+    dias_disponiveis: List[int]
 
 class treino(BaseModel):
-    domingo: list[str] | None
-    segunda: list[str] | None
-    terca: list[str] | None
-    quarta: list[str] | None
-    quinta: list[str] | None
-    sexta: list[str] | None
-    sabado: list[str] | None
+    domingo: list[str] | None = None
+    segunda: list[str] | None = None
+    terca: list[str] | None = None
+    quarta: list[str] | None = None
+    quinta: list[str] | None = None
+    sexta: list[str] | None = None
+    sabado: list[str] | None = None
 
 class login(BaseModel):
     email: str
