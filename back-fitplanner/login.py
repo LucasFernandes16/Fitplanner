@@ -1,17 +1,10 @@
-from classes import login, treino
+from classes import login
+from gerenciador_dados import *
 
-logins = {
-    login("cesar@gmail.com", "senhacesar1@"): None,
-    login("guilherme@gmail.com", "senhaguilherme1@"): None,
-    login("gabriel@gmail.com", "senhagabriel1@"): None,
-    login("tiago@gmail.com", "senhatiago1@"): None,
-    login("lucas@gmail.com", "senhalucas1@"): None
-}
+logins = carregar_usuarios()
 
 def email_registrado(email: str) -> bool:
     return email in logins
 
 def encontrar_login(email: str) -> login:
-    for i in logins:
-        if i == email:
-            return i
+    return logins[email]["login"]

@@ -6,18 +6,17 @@ class usuario(BaseModel):
     dias_disponiveis: list[int]  # Lista de índices dos dias disponíveis (0 = domingo, 1 = segunda, etc.)
 
 class treino(BaseModel):
-    domingo: list[str]
-    segunda: list[str]
-    terca: list[str]
-    quarta: list[str]
-    quinta: list[str]
-    sexta: list[str]
-    sabado: list[str]
+    domingo: list[str] | None
+    segunda: list[str] | None
+    terca: list[str] | None
+    quarta: list[str] | None
+    quinta: list[str] | None
+    sexta: list[str] | None
+    sabado: list[str] | None
 
-class login:
-    def __init__(self, email: str, senha: str) -> None:
-        self.email = email
-        self.__senha = senha 
+class login(BaseModel):
+    email: str
+    senha: str
 
     def email_valido(self) -> bool:
         if self.email.count("@") != 1:
@@ -40,14 +39,14 @@ class login:
         return False
 
     def __caractere_numerico(self) -> bool:
-        return any(caractere in "0123456789" for caractere in self.__senha)
+        return any(caractere in "0123456789" for caractere in self.senha)
     def __caractere_especial(self) -> bool:
-        return any(caractere in "@#$%&*" for caractere in self.__senha)
+        return any(caractere in "@#$%&*" for caractere in self.senha)
     
     def mesma_senha(self, nova_senha: str) -> bool:
-        if nova_senha == self.__senha:
+        if nova_senha == self.senha:
             return True
         return False
     
     def atualizar_senha(self, nova_senha: str) -> None:
-        self.__senha = nova_senha
+        self.senha = nova_senha

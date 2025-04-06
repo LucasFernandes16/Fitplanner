@@ -3,6 +3,7 @@ from classes import *
 from montar_treino import * 
 from criar_prompt import *
 from login import *
+from gerenciador_dados import salvar_usuarios
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -44,20 +45,33 @@ def registrar_login(email: str, senha: str) -> None:
     if email_registrado(email):
         raise HTTPException(status_code= 410, detail= "Email já registrado")
     
-    login_atual = login(email, senha)
+    login_atual = login(email= email, senha= senha)
     if not login_atual.email_valido():
         raise HTTPException(status_code= 411, detail= "Email inválido")
     if not login_atual.senha_valida():
         raise HTTPException(status_code= 412, detail= "Senha inválida, a senha precisa ter pelo menos um digito e um caractere especial")
     
-    logins.update({login_atual: None})
+    logins[email] = {
+        "login": login_atual, 
+        "treino": treino(
+            domingo= None, 
+            segunda= None, 
+            terca= None, 
+            quarta= None, 
+            quinta= None, 
+            sexta= None, 
+            sabado= None
+        )
+    }
+
+    salvar_usuarios(logins)
 
 @app.patch("/atualizar-senha")
 def atualizar_senha(email: str, senha_nova: str) -> None:
     if not email_registrado(email):
         raise HTTPException(status_code= 413, detail= "Email não encontrado")
     
-    login_atualizado = login(email, senha_nova)
+    login_atualizado = login(email= email, senha= senha_nova)
     if not login_atualizado.senha_valida():
         raise HTTPException(status_code= 412, detail= "Senha inválida, a senha precisa ter pelo menos um digito e um caractere especial")
     
@@ -65,6 +79,8 @@ def atualizar_senha(email: str, senha_nova: str) -> None:
     if login_antigo.mesma_senha(senha_nova):
         raise HTTPException(status_code= 414, detail= "A nova senha não pode ser igual a senha atual")
     login_antigo.atualizar_senha(senha_nova)
+
+    salvar_usuarios(logins)
 
 @app.post("/fazer-login")
 def fazer_login(email: str, senha: str) -> None:
@@ -78,8 +94,10 @@ def fazer_login(email: str, senha: str) -> None:
             
 @app.patch("/salvar-treino")
 def salvar_treino(user: usuario, email: str) -> None:
-    logins[encontrar_login(email)] = montar_treino(user)
+    logins[email]["treino"] = montar_treino(user)
+
+    salvar_usuarios(logins)
 
 @app.post("resgatar-treino")
 def resgatar_treino(email: str) -> treino:
-    return logins[encontrar_login(email)]
+    return logins[email]["treino"]

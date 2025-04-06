@@ -1,0 +1,92 @@
+{
+    "cesar@gmail.com": {
+        "login": {
+            "email": "cesar@gmail.com",
+            "senha": "senhacesar1@"
+        },
+        "treino": {
+            "domingo": null,
+            "segunda": null,
+            "terca": null,
+            "quarta": null,
+            "quinta": null,
+            "sexta": null,
+            "sabado": null
+        }
+    },
+    "guilherme@gmail.com": {
+        "login": {
+            "email": "guilherme@gmail.com",
+            "senha": "senhaguilherme1@"
+        },
+        "treino": {
+            "domingo": null,
+            "segunda": null,
+            "terca": null,
+            "quarta": null,
+            "quinta": null,
+            "sexta": null,
+            "sabado": null
+        }
+    },
+    "gabriel@gmail.com": {
+        "login": {
+            "email": "gabriel@gmail.com",
+            "senha": "senhagabriel1@"
+        },
+        "treino": {
+            "domingo": null,
+            "segunda": null,
+            "terca": null,
+            "quarta": null,
+            "quinta": null,
+            "sexta": null,
+            "sabado": null
+        }
+    },
+    "tiago@gmail.com": {
+        "login": {
+            "email": "tiago@gmail.com",
+            "senha": "senhatiago1@"
+        },
+        "treino": {
+            "domingo": null,
+            "segunda": null,
+            "terca": null,
+            "quarta": null,
+            "quinta": null,
+            "sexta": null,
+            "sabado": null
+        }
+    },
+    "lucas@gmail.com": {
+        "login": {
+            "email": "lucas@gmail.com",
+            "senha": "senhalucas1@"
+        },
+        "treino": {
+            "domingo": null,
+            "segunda": null,
+            "terca": null,
+            "quarta": null,
+            "quinta": null,
+            "sexta": null,
+            "sabado": null
+        }
+    },
+    "aaa@gmail.com": {
+        "login": {
+            "email": "aaa@gmail.com",
+            "senha": "senhateste1@"
+        },
+        "treino": {
+            "domingo": null,
+            "segunda": null,
+            "terca": null,
+            "quarta": null,
+            "quinta": null,
+            "sexta": null,
+            "sabado": null
+        }
+    }
+}
