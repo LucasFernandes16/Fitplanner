@@ -85,7 +85,9 @@ def registrar_login(data: login) -> dict:
     return {"message": "Registro realizado com sucesso"}
 
 @app.patch("/atualizar-senha")
-def atualizar_senha(email: str, senha_nova: str) -> None:
+def atualizar_senha(data: login) -> None:
+    email = data.email
+    senha_nova = data.senha
     if not email_registrado(email):
         raise HTTPException(status_code= 413, detail= "Email não encontrado")
     

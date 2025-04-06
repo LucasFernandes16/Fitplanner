@@ -7,7 +7,9 @@ import Image from 'next/image';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [novaSenha, setNovaSenha] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,6 +63,44 @@ export default function LoginPage() {
     }
   };
 
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      const response = await fetch('http://127.0.0.1:8000/atualizar-senha', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          senha: novaSenha
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 413) {
+          alert('Email não encontrado');
+        } else if (response.status === 412) {
+          alert('A nova senha precisa ter pelo menos um dígito e um caractere especial');
+        } else if (response.status === 414) {
+          alert('A nova senha não pode ser igual à senha atual');
+        } else {
+          alert(errorData.detail || 'Erro ao atualizar senha');
+        }
+        throw new Error(`Erro: ${response.status}`);
+      }
+
+      alert('Senha atualizada com sucesso!');
+      setShowChangePassword(false);
+      setSenha('');
+      setNovaSenha('');
+    } catch (error) {
+      console.error('Erro:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center relative">
       {/* Background Image */}
@@ -103,54 +143,112 @@ export default function LoginPage() {
           {/* Form Card with increased transparency */}
           <div className="bg-gray-800/90 backdrop-blur-xl rounded-2xl shadow-xl p-8 border border-gray-700/50">
             <h2 className="text-2xl font-bold text-white mb-6 text-center">
-              {isRegistering ? 'Criar Conta' : 'Bem-vindo de volta!'}
+              {showChangePassword ? 'Alterar Senha' : (isRegistering ? 'Criar Conta' : 'Bem-vindo de volta!')}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  required
-                />
-              </div>
+            {!showChangePassword ? (
+              // Form de Login/Registro
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    required
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="senha" className="block text-sm font-medium text-gray-300 mb-2">
-                  Senha
-                </label>
-                <input
-                  type="password"
-                  id="senha"
-                  value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
-                  required
-                />
-              </div>
+                <div>
+                  <label htmlFor="senha" className="block text-sm font-medium text-gray-300 mb-2">
+                    Senha
+                  </label>
+                  <input
+                    type="password"
+                    id="senha"
+                    value={senha}
+                    onChange={(e) => setSenha(e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all"
+                    required
+                  />
+                </div>
 
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg font-medium hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all transform hover:scale-[1.02]"
-              >
-                {isRegistering ? 'Criar Conta' : 'Entrar'}
-              </button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <button
-                onClick={() => setIsRegistering(!isRegistering)}
-                className="text-gray-400 hover:text-green-400 transition-colors"
-              >
-                {isRegistering ? 'Já tem uma conta? Entre' : 'Não tem uma conta? Registre-se'}
-              </button>
-            </div>
+                <div className="flex justify-between items-center mt-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsRegistering(!isRegistering)}
+                    className="text-sm text-green-400 hover:text-green-300"
+                  >
+                    {isRegistering ? 'Já tem uma conta? Faça login' : 'Não tem uma conta? Registre-se'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowChangePassword(true)}
+                    className="text-sm text-green-400 hover:text-green-300"
+                  >
+                    Esqueceu a senha?
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-green-500 to-green-600 text-white py-3 px-4 rounded-lg font-medium hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all transform hover:scale-[1.02]"
+                >
+                  {isRegistering ? 'Criar Conta' : 'Entrar'}
+                </button>
+              </form>
+            ) : (
+              // Form de Mudança de Senha
+              <form onSubmit={handleChangePassword} className="space-y-4">
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="novaSenha" className="block text-sm font-medium text-gray-300">
+                    Nova Senha
+                  </label>
+                  <input
+                    type="password"
+                    id="novaSenha"
+                    value={novaSenha}
+                    onChange={(e) => setNovaSenha(e.target.value)}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-600 rounded-md bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-green-500"
+                    required
+                  />
+                </div>
+                <div className="flex justify-between pt-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowChangePassword(false);
+                      setNovaSenha('');
+                    }}
+                    className="text-sm text-green-400 hover:text-green-300"
+                  >
+                    Voltar ao login
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500"
+                  >
+                    Atualizar Senha
+                  </button>
+                </div>
+              </form>
+            )}
 
             {/* Feature Highlights */}
             <div className="mt-8 pt-6 border-t border-gray-700">
