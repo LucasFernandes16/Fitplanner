@@ -94,11 +94,11 @@ Fitplanner/
 
 Este projeto foi desenvolvido por alunos da disciplina de **Desenvolvimento de Software**:
 
-- Lucas Fernandes ([@LucasFernandes16](https://github.com/LucasFernandes16))  
-- Tiago Quaresma  
-- Cesar Cavalcanti  
-- Gabriel Campelo  
-- Gabriel Carneiro
+- Lucas Fernandes ([@LucasFernandes16](https://github.com/LucasFernandes16))
+- Cesar Cavalcanti ([@CesarC15](https://github.com/CesarC15)) 
+- Tiago Quaresma  ([@tiagohmq](https://github.com/tiagohmq))
+- Gabriel Campelo  ([@MrWilliam468](https://github.com/MrWilliam468))
+- Gabriel Carneiro  ([@GabrielCarneiro04](https://github.com/GabrielCarneiro04))
 
 ---
 
