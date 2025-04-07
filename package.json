@@ -1,1 +1,13 @@
-{}
+{
+  "name": "fitplanner",
+  "version": "1.0.0",
+  "description": "FitPlanner - Sistema de Treinos Personalizados",
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd back-fitplanner && python -m uvicorn main:app --reload",
+    "start:frontend": "cd front-fitplanner && npm run dev",
+    "install": "cd front-fitplanner && npm install && npm install -g concurrently"
+  },
+  "author": "",
+  "license": "ISC"
+}
