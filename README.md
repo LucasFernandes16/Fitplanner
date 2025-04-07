@@ -5,6 +5,32 @@ FitPlanner AI é um aplicativo inteligente que monta treinos personalizados para
 
 ---
 
+## 📸 Prévia do Aplicativo
+
+### 🏠 Tela Inicial
+
+Aqui o usuário encontra a interface principal, onde pode começar a montar seu treino personalizado com apenas alguns cliques.
+
+![Tela Inicial](./home.png)
+
+---
+
+### 🧠 Treino Gerado por IA
+
+Após preencher as preferências, o FitPlanner AI gera automaticamente um plano de treino adaptado ao usuário.
+
+![Treino Gerado](./gerar-treino.png)
+
+---
+
+### 💾 Salvando o Treino
+
+Depois de revisar o treino, o usuário pode salvá-lo para consultas futuras.
+
+![Salvar Treino](./salvar-treino.png)
+
+---
+
 ## 🚀 Funcionalidades
 
 - Geração de treinos personalizados
