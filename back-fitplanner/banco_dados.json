@@ -91,39 +91,33 @@
     "lucas@gmail.com": {
         "login": {
             "email": "lucas@gmail.com",
-            "senha": "senhalucas1@"
+            "senha": "lucaslu*1"
         },
         "treino": {
             "domingo": [
                 "descanso"
             ],
             "segunda": [
-                "Supino inclinado com barra",
                 "Supino reto com halteres pesado",
                 "Crucifixo inclinado com halteres",
-                "Flex\u00e3o com peso",
-                "Desenvolvimento Arnold"
+                "Flex\u00e3o com peso"
             ],
             "terca": [
-                "Barra fixa",
-                "Remada curvada com barra",
-                "Levantamento terra",
-                "Pull-up com peso"
-            ],
-            "quarta": [
                 "descanso"
             ],
+            "quarta": [
+                "Desenvolvimento militar com barra",
+                "Desenvolvimento Arnold",
+                "Eleva\u00e7\u00e3o lateral pesada",
+                "Face pull pesado"
+            ],
             "quinta": [
-                "Agachamento livre",
-                "Levantamento terra sum\u00f4",
-                "Agachamento frontal",
-                "Agachamento b\u00falgaro com peso"
+                "descanso"
             ],
             "sexta": [
-                "Rosca direta com barra pesada",
-                "Rosca martelo com halteres pesados",
-                "Rosca concentrada intensa",
-                "Rosca alternada pesada"
+                "Tr\u00edceps corda pesado",
+                "Tr\u00edceps franc\u00eas com halteres",
+                "Mergulho nas paralelas"
             ],
             "sabado": [
                 "descanso"
@@ -238,6 +232,103 @@
                 "Rosca concentrada intensa",
                 "Rosca alternada pesada",
                 "Extens\u00e3o de tr\u00edceps com barra"
+            ],
+            "sabado": [
+                "descanso"
+            ]
+        }
+    },
+    "teste4@gmail.com": {
+        "login": {
+            "email": "teste4@gmail.com",
+            "senha": "senhateste4@"
+        },
+        "treino": {
+            "domingo": null,
+            "segunda": null,
+            "terca": null,
+            "quarta": null,
+            "quinta": null,
+            "sexta": null,
+            "sabado": null
+        }
+    },
+    "teste5@gmail.com": {
+        "login": {
+            "email": "teste5@gmail.com",
+            "senha": "senhateste5@"
+        },
+        "treino": {
+            "domingo": [
+                "descanso"
+            ],
+            "segunda": [
+                "Paralelas em barras paralelas",
+                "Supino reto com halteres pesado",
+                "Crucifixo inclinado com halteres",
+                "Flex\u00e3o com peso",
+                "Desenvolvimento Arnold"
+            ],
+            "terca": [
+                "Barra fixa",
+                "Remada curvada com barra",
+                "Levantamento terra",
+                "Pull-up com peso",
+                "Remada cavalinho"
+            ],
+            "quarta": [
+                "descanso"
+            ],
+            "quinta": [
+                "Agachamento livre",
+                "Levantamento terra sum\u00f4",
+                "Agachamento frontal",
+                "Agachamento b\u00falgaro com peso"
+            ],
+            "sexta": [
+                "Rosca direta com barra pesada",
+                "Rosca martelo com halteres pesados",
+                "Rosca concentrada intensa",
+                "Rosca alternada pesada"
+            ],
+            "sabado": [
+                "descanso"
+            ]
+        }
+    },
+    "carlos@gmail.com": {
+        "login": {
+            "email": "carlos@gmail.com",
+            "senha": "senhacarlos1@"
+        },
+        "treino": {
+            "domingo": [
+                "Supino inclinado com barra",
+                "Supino reto com halteres pesado",
+                "Crucifixo inclinado com halteres"
+            ],
+            "segunda": [
+                "Barra fixa",
+                "Remada curvada com barra",
+                "Pull-up com peso"
+            ],
+            "terca": [
+                "descanso"
+            ],
+            "quarta": [
+                "Agachamento livre",
+                "Levantamento terra sum\u00f4",
+                "Agachamento frontal"
+            ],
+            "quinta": [
+                "Rosca direta com barra pesada",
+                "Rosca martelo com halteres pesados",
+                "Rosca concentrada intensa"
+            ],
+            "sexta": [
+                "Desenvolvimento militar com barra",
+                "Eleva\u00e7\u00e3o lateral pesada",
+                "Eleva\u00e7\u00e3o frontal com barra"
             ],
             "sabado": [
                 "descanso"

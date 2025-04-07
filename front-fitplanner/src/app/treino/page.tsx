@@ -94,7 +94,7 @@ export default function Treino() {
       <div 
         className="absolute inset-0 z-0"
         style={{
-          backgroundImage: 'url("/backgrounds/gym-background.jpg")',
+          backgroundImage: 'url("/backgrounds/gym-background2.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

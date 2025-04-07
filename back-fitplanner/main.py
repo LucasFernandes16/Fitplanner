@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from classes import *
 from montar_treino import * 
 from criar_prompt import *
-from login import *
+from gerenciador_login import logins, email_registrado, encontrar_login
 from gerenciador_dados import salvar_usuarios
 from fastapi.middleware.cors import CORSMiddleware
 
